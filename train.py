@@ -12,7 +12,7 @@ from utils.callbacks import EvalCallback, LossHistory
 from utils.dataloader import  deeplab_dataset_collate,CD_Dataset
 from utils.utils import download_weights, seed_everything, show_config, worker_init_fn
 from utils.utils_fit import fit_one_epoch
-from nets.BIT import BASE_Transformer
+from nets.DFSMCG import DFSMCG
 import numpy as np
 
 
@@ -23,8 +23,7 @@ def train_model(args):
     device = torch.device('cuda' if torch.cuda.is_available() and args.cuda else 'cpu')
 
     # 初始化模型
-    model = BASE_Transformer(input_nc=3, output_nc=args.num_classes, token_len=4, resnet_stages_num=4,
-                             with_pos='learned', enc_depth=1, dec_depth=8)
+    model = DFSMCG(num_classes=2, pretrained=True, backbone='resnet')
     cls_weights = np.array(args.cls_weights, dtype=np.float32)
    
 
